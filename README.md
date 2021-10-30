@@ -197,6 +197,40 @@ $TTL    604800
 Supaya tetap bisa menghubungi Franky jika server EniesLobby rusak, maka buat Water7 sebagai DNS Slave untuk domain utama
 
 ### Pembahasan
+1. Pertama pada **Enieslobby** edit file `/etc/bind/named.conf.local` seperti berikut:
+```
+zone "franky.b07.com" {
+        type master;
+        notify yes;
+        also-notify { 192.180.2.3; }; // Masukan IP Water7 tanpa tanda petik
+        allow-transfer { 192.180.2.3; }; // Masukan IP Water7 tanpa tanda petik
+        file "/etc/bind/kaizoku/franky.b07.com";
+};
+
+zone "2.180.192.in-addr.arpa" {
+    type master;
+    file "/etc/bind/kaizoku/2.180.192.in-addr.arpa";
+};
+```
+2. Kemudian lakukan `service bind9 restart`
+3. Pada **Water7** lakukan `apt-get update` dan `apt-get install bind9 -y`
+4. Lalu edit file `/etc/bind/named.conf.local` menjadi seperti berikut:
+```
+zone "franky.b07.com" {
+    type slave;
+    masters { 192.180.2.2; }; // Masukan IP EniesLobby tanpa tanda petik
+    file "/var/lib/bind/franky.b07.com";
+};
+```
+5. Kemudian lakukan `service bind9 restart`
+6. Lalu pada **Loguetown** lakukan 
+```
+echo 'nameserver 192.180.2.2 # IP EniesLobby
+nameserver 192.180.2.3 # IP Water7
+' > /etc/resolv.conf
+```
+7. Untuk mencobanya, matikan service bind9 dengan `service bind9 stop` pada **Enieslobby**
+8. Kemudian coba lakukan `ping franky.b07.com` pada **Loguetown**, jika bisa maka pembuatan DNS Slave telah berhasil
 
 ## Soal 6
 
