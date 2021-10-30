@@ -127,6 +127,14 @@ echo 'nameserver 192.180.2.2 # IP EniesLobby
 ```
 8. Melakukan tes di Loguetown `ping franky.b07.com` dan `ping www.franky.b07.com`, jika IP nya `192.180.2.2` artinya DNS telah terkoneksi
 
+`ping franky.b07.com`
+
+![tes_franky](https://user-images.githubusercontent.com/73969921/139532207-2ed1197f-eb39-4077-9421-0c8bdc3ac1f5.png)
+
+`ping www.franky.b07.com`
+
+![tes_wwwfranky](https://user-images.githubusercontent.com/73969921/139532282-b89ea57f-db6a-48ba-a41f-64e94237bb8f.png)
+
 ## Soal 3
 
 Setelah itu buat subdomain **super.franky.b07.com** dengan alias www.super.franky.b07.com yang diatur DNS nya di EniesLobby dan mengarah ke Skypie
@@ -153,6 +161,15 @@ www.super     IN      CNAME   super.franky.b07.com.
 ```
 2. Melakukan restart bind9 dengan `service bind9 restart`
 3. Melakukan tes di Loguetown `ping super.franky.b07.com` dan `ping www.super.franky.b07.com`, jika IP nya `192.180.2.4` artinya DNS telah terkoneksi
+
+`ping super.franky.b07.com`
+
+![tes_super](https://user-images.githubusercontent.com/73969921/139532344-811f8c91-cf3c-46de-a090-d0cfdbf836af.png)
+
+`ping www.super.franky.b07.com`
+
+![tes_wwwsuper](https://user-images.githubusercontent.com/73969921/139532352-dbcda610-a5bc-4376-8b04-f9f122592134.png)
+
 
 ## Soal 4
 
@@ -191,6 +208,8 @@ $TTL    604800
 4. Melakukan restart bind9 dengan `service bind9 restart`
 5. Pada **Loguetown** lakukan `apt-get update` dan `apt-get install dnsutils`
 6. Kemudian lakukan `host -t PTR 192.180.2.2` untuk mengecek apakah reverse domain mengarah ke domain utama
+
+![tes_reverse](https://user-images.githubusercontent.com/73969921/139532429-5a95f732-0abf-4ee0-9775-50b2d79003f5.png)
 
 ## Soal 5
 
