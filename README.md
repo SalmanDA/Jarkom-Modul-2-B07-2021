@@ -373,3 +373,24 @@ www     IN      CNAME   mecha.franky.b07.com.
 Untuk memperlancar komunikasi Luffy dan rekannya, dibuatkan subdomain melalui Water7 dengan nama **general.mecha.franky.b07.com** dengan alias www.general.mecha.franky.b07.com yang mengarah ke Skypie
 
 ### Pembahasan
+1. Pada **Water7** edit file `/etc/bind/sunnygo/mecha.franky.b07.com` menjadi seperti berikut:
+```
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     mecha.franky.b07.com. root.mecha.franky.b07.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      mecha.franky.b07.com.
+@       IN      A       192.180.2.4    ; IP Skypie
+www     IN      CNAME   mecha.franky.b07.com.
+general 	IN      A       192.180.2.4     ; IP Skypie
+www.general	IN	CNAME	general.mecha.franky.b07.com.
+```
+2. Kemudian lakukan `service bind9 restart`
+3. Lalu lakukan tes pada **Loguetown** "ping www.general.mecha.franky.b07.com", jika IP nya `192.180.2.4` artinya telah berhasil
