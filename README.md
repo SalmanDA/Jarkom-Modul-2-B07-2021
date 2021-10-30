@@ -237,6 +237,136 @@ nameserver 192.180.2.3 # IP Water7
 Setelah itu terdapat subdomain **mecha.franky.b07.com** dengan alias www.mecha.franky.b07.com yang didelegasikan dari EniesLobby ke Water7 dengan IP menuju ke Skypie dalam folder sunnygo
 
 ### Pembahasan
+1. Pertama pada **Enieslobby** edit file `/etc/bind/kaizoku/franky.b07.com` seperti berikut:
+```
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     franky.b07.com. root.franky.b07.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       	IN      NS      franky.b07.com.
+@       	IN      A       192.180.2.2 ;IP Enieslobby
+www     	IN      CNAME   franky.b07.com.
+super   	IN      A       192.180.2.4 ;IP Skypie
+www.super     	IN      CNAME   super.franky.b07.com.
+ns1     	IN      A       192.180.2.3 ;IP water7
+mecha   	IN      A       ns1
+```
+2. Kemudian pada file `/etc/bind/named.conf.options` ubah menjadi seperti berikut:
+```
+options {
+        directory "/var/cache/bind";
+
+        // If there is a firewall between you and nameservers you want
+        // to talk to, you may need to fix the firewall to allow multiple
+        // ports to talk.  See http://www.kb.cert.org/vuls/id/800113
+
+        // If your ISP provided one or more IP addresses for stable
+        // nameservers, you probably want to use them as forwarders.
+        // Uncomment the following block, and insert the addresses replacing
+        // the all-0s placeholder.
+
+        // forwarders {
+        //      0.0.0.0;
+        // };
+
+        //========================================================================
+        // If BIND logs error messages about the root key being expired,
+        // you will need to update your keys.  See https://www.isc.org/bind-keys
+        //========================================================================
+
+  	//dnssec-validation auto;
+        allow-query{any;};
+
+        auth-nxdomain no;    # conform to RFC1035
+        listen-on-v6 { any; };
+};
+```
+3. Lalu pada file `/etc/bind/named.conf.local` ubah menjadi seperti berikut:
+```
+zone "franky.b07.com" {
+        type master;
+	    notify yes;
+	    also-notify { 192.180.2.3; }; // Masukan IP Water7 tanpa tanda petik
+        allow-transfer { 192.180.2.3; }; // Masukan IP Water7 tanpa tanda petik
+        file "/etc/bind/kaizoku/franky.b07.com";
+};
+
+zone "2.180.192.in-addr.arpa" {
+    type master;
+    file "/etc/bind/kaizoku/2.180.192.in-addr.arpa";
+};
+```
+4. Kemudian lakukan `service bind9 restart`
+5. Selanjutnya di **Water7** ubah file `/etc/bind/named.conf.options` seperti berikut:
+```
+options {
+        directory "/var/cache/bind";
+
+        // If there is a firewall between you and nameservers you want
+        // to talk to, you may need to fix the firewall to allow multiple
+        // ports to talk.  See http://www.kb.cert.org/vuls/id/800113
+
+        // If your ISP provided one or more IP addresses for stable
+        // nameservers, you probably want to use them as forwarders.
+        // Uncomment the following block, and insert the addresses replacing
+        // the all-0s placeholder.
+
+        // forwarders {
+        //      0.0.0.0;
+        // };
+
+        //=======================================================================
+ // If BIND logs error messages about the root key being expired,
+        // you will need to update your keys.  See https://www.isc.org/bind-keys
+        //=======================================================================
+        // dnssec-validation auto;
+        allow-query{any;};
+
+        auth-nxdomain no;    # conform to RFC1035
+        listen-on-v6 { any; };
+};
+```
+6. Pada file `/etc/bind/named.conf.local` ubah menjadi:
+```
+zone "franky.b07.com" {
+    type slave;
+    masters { 192.180.2.2; }; // Masukan IP EniesLobby tanpa tanda petik
+    file "/var/lib/bind/franky.b07.com";
+};
+
+zone "mecha.franky.b07.com" {
+        type master;
+        file "/etc/bind/sunnygo/mecha.franky.b07.com";  //delegasi subdomain mecha dari EniesLobby
+};
+```
+7. Kemudian buat direktori `/sunnygo` dengan command `mkdir /etc/bind/sunnygo`
+8. Lakukan copy file dengan command `cp /etc/bind/db.local /etc/bind/sunnygo/mecha.franky.b07.com`
+9. Lalu pada file `/etc/bind/sunnygo/mecha.franky.b07.com` edit menjadi seperti berikut:
+```
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     mecha.franky.b07.com. root.mecha.franky.b07.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      mecha.franky.b07.com.
+@       IN      A       192.180.2.4    ; IP Skypie
+www     IN      CNAME   mecha.franky.b07.com.
+```
+10. Lakukan `service bind9 restart`
+11. Terakhir tes "ping www.mecha.franky.b07.com" di **Loguetown**, jika IP nya `192.180.2.4` artinya delegasi telah berhasil
 
 ## Soal 7
 
