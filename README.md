@@ -393,4 +393,4 @@ general 	IN      A       192.180.2.4     ; IP Skypie
 www.general	IN	CNAME	general.mecha.franky.b07.com.
 ```
 2. Kemudian lakukan `service bind9 restart`
-3. Lalu lakukan tes pada **Loguetown** "ping www.general.mecha.franky.b07.com", jika IP nya `192.180.2.4` artinya telah berhasil
+3. Lalu lakukan tes pada **Loguetown** `ping www.general.mecha.franky.b07.com`, jika IP nya `192.180.2.4` artinya telah berhasil
