@@ -14,7 +14,7 @@ Prefix IP dari kelompok kami adalah `192.180`
 
 ## Soal 1
 
-EniesLobby akan dijadikan sebagai DNS Master, Water7 akan dijadikan DNS Slave, dan Skypie akan digunakan sebagai Web Server. Terdapat 2 Client yaitu Loguetown, dan Alabasta. Semua node terhubung pada router Foosha, sehingga dapat mengakses internet 
+EniesLobby akan dijadikan sebagai DNS Master, Water7 akan dijadikan DNS Slave, dan Skypie akan digunakan sebagai Web Server. Terdapat 2 Client yaitu Loguetown, dan Alabasta. Semua node terhubung pada router Foosha, sehingga dapat mengakses internet.
 
 ### Pembahasan
 1. Pertama dilakukan pembuatan node dan dihubungkan hingga sesuai dengan ketentuan soal  
