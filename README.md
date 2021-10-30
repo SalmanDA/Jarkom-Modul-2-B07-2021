@@ -17,6 +17,74 @@ Prefix IP dari kelompok kami adalah `192.180`
 EniesLobby akan dijadikan sebagai DNS Master, Water7 akan dijadikan DNS Slave, dan Skypie akan digunakan sebagai Web Server. Terdapat 2 Client yaitu Loguetown, dan Alabasta. Semua node terhubung pada router Foosha, sehingga dapat mengakses internet 
 
 ### Pembahasan
+1. Pertama dilakukan pembuatan node dan dihubungkan hingga sesuai dengan ketentuan soal  
+
+![node](https://user-images.githubusercontent.com/75240358/139521628-d6b6edc8-c0e9-4da8-8eb2-577a7cc9f0e0.png)
+
+2. Kemudian melakukan Edit network configuration pada setiap node :  
+    a. Foosha
+    ```
+    auto eth0
+    iface eth0 inet dhcp
+
+    auto eth1
+    iface eth1 inet static
+	  address 192.180.1.1
+	  netmask 255.255.255.0
+
+    auto eth2
+    iface eth2 inet static
+	  address 192.180.2.1
+	  netmask 255.255.255.0
+    ```
+
+    b. Loguetown
+    ```
+    auto eth0
+    iface eth0 inet static
+	  address 192.180.1.2
+	  netmask 255.255.255.0
+	  gateway 192.180.1.1
+    ```
+    c. Alabasta
+    ```
+    auto eth0
+    iface eth0 inet static
+	  address 192.180.1.3
+	  netmask 255.255.255.0
+	  gateway 192.180.1.1
+    ```
+    d. EniesLobby
+    ```
+    auto eth0
+    iface eth0 inet static
+	  address 192.180.2.2
+	  netmask 255.255.255.0
+	  gateway 192.180.2.1
+    ```
+    e. Water7
+    ```
+    auto eth0
+    iface eth0 inet static
+	  address 192.180.2.3
+	  netmask 255.255.255.0
+	  gateway 192.180.2.1
+    ```
+    f. Skypie
+    ```
+    auto eth0
+    iface eth0 inet static
+	  address 192.180.2.4
+	  netmask 255.255.255.0
+	  gateway 192.180.2.1
+    ```
+3. Lalu merestart semua node
+4. Kemudian setting iptables dengan `iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s 192.180.0.0/16` pada router `Foosha`
+5. Mengetikkan command `cat /etc/resolv.conf` di `Foosha`
+
+![set_nameserver](https://user-images.githubusercontent.com/75240358/139521643-0e4ad7cf-1be0-4c2f-a289-6ee5025d8b0c.png)
+
+6. Mensetting nameserver pada semua node sesuai dengan IP yang didapatkan menggunakan command `echo nameserver 192.168.122.1 > /etc/resolv.conf`
 
 ## Soal 2
 
@@ -53,4 +121,3 @@ Setelah itu terdapat subdomain **mecha.franky.b07.com** dengan alias www.mecha.f
 Untuk memperlancar komunikasi Luffy dan rekannya, dibuatkan subdomain melalui Water7 dengan nama **general.mecha.franky.b07.com** dengan alias www.general.mecha.franky.b07.com yang mengarah ke Skypie
 
 ### Pembahasan
-
