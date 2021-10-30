@@ -251,6 +251,8 @@ nameserver 192.180.2.3 # IP Water7
 7. Untuk mencobanya, matikan service bind9 dengan `service bind9 stop` pada **Enieslobby**
 8. Kemudian coba lakukan `ping franky.b07.com` pada **Loguetown**, jika bisa maka pembuatan DNS Slave telah berhasil
 
+![tes_franky](https://user-images.githubusercontent.com/74144561/139533470-c3164900-b3bf-4de4-99bc-43321b3c5792.png)
+
 ## Soal 6
 
 Setelah itu terdapat subdomain **mecha.franky.b07.com** dengan alias www.mecha.franky.b07.com yang didelegasikan dari EniesLobby ke Water7 dengan IP menuju ke Skypie dalam folder sunnygo
