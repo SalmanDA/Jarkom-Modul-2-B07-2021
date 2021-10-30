@@ -418,6 +418,8 @@ www.general	IN	CNAME	general.mecha.franky.b07.com.
 2. Kemudian lakukan `service bind9 restart`
 3. Lalu lakukan tes pada **Loguetown** `ping www.general.mecha.franky.b07.com`, jika IP nya `192.180.2.4` artinya telah berhasil
 
+![tes_wwwgeneral](https://user-images.githubusercontent.com/74144561/139533683-595f5872-4409-4360-9fa6-c9d6d46abff6.png)
+
 ---
 ## Kendala
 1. Kesulitan dalam instalasi dan menjalankan lynx, `Alert!: Unable to connect to remote host.`
