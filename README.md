@@ -92,6 +92,40 @@ EniesLobby akan dijadikan sebagai DNS Master, Water7 akan dijadikan DNS Slave, d
 Luffy ingin menghubungi Franky yang berada di EniesLobby dengan denden mushi. Kalian diminta Luffy untuk membuat website utama dengan mengakses **franky.b07.com** dengan alias **www.franky.b07.com** pada folder kaizoku
 
 ### Pembahasan
+1. Pertama dilakukan install bind9 dengan menggunakan command `apt-get update` dan `apt-get install bind9 -y`
+2. Kemudian mengedit isi dari file `/etc/bind/named.conf.local` seperti berikut:
+```
+   zone "franky.b07.com" {
+        type master;
+        file "/etc/bind/kaizoku/franky.b07.com";
+};
+```
+3. Membuat direktori baru `mkdir /etc/bind/kaizoku`
+4. Melakukan copy file `cp /etc/bind/db.local /etc/bind/kaizoku/franky.b07.com`
+5. Mengedit isi file `/etc/bind/kaizoku/franky.b07.com` seperti berikut:
+```
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     franky.b07.com. root.franky.b07.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      franky.b07.com.
+@       IN      A       192.180.2.2 ;IP Enieslobby
+www     IN      CNAME   franky.b07.com.
+```
+6. Melakukan restart bind9 dengan `service bind9 restart`
+7. Melakukan setting nameserver pada client **Loguetown** dan **Alabasta** dengan 
+```
+echo 'nameserver 192.180.2.2 # IP EniesLobby
+' > /etc/resolv.conf
+```
+8. Melakukan tes di Loguetown `ping franky.b07.com` dan `ping www.franky.b07.com`, jika IP nya `192.180.2.2` artinya DNS telah terkoneksi
 
 ## Soal 3
 
