@@ -389,6 +389,8 @@ www     IN      CNAME   mecha.franky.b07.com.
 10. Lakukan `service bind9 restart`
 11. Terakhir tes "ping www.mecha.franky.b07.com" di **Loguetown**, jika IP nya `192.180.2.4` artinya delegasi telah berhasil
 
+![tes_wwwmecha](https://user-images.githubusercontent.com/74144561/139533562-7d2bf042-e059-4e6b-aa47-ad1def668c47.png)
+
 ## Soal 7
 
 Untuk memperlancar komunikasi Luffy dan rekannya, dibuatkan subdomain melalui Water7 dengan nama **general.mecha.franky.b07.com** dengan alias www.general.mecha.franky.b07.com yang mengarah ke Skypie
