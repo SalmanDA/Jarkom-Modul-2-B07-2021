@@ -85,6 +85,7 @@ EniesLobby akan dijadikan sebagai DNS Master, Water7 akan dijadikan DNS Slave, d
 ![set_nameserver](https://user-images.githubusercontent.com/75240358/139521643-0e4ad7cf-1be0-4c2f-a289-6ee5025d8b0c.png)
 
 6. Mensetting nameserver pada semua node sesuai dengan IP yang didapatkan menggunakan command `echo nameserver 192.168.122.1 > /etc/resolv.conf`
+7. Melakukan tes dengan `ping google.com` pada setiap node untuk mengecek apakah node telah tersambung ke internet
 
 ## Soal 2
 
