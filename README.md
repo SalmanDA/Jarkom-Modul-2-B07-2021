@@ -132,6 +132,27 @@ echo 'nameserver 192.180.2.2 # IP EniesLobby
 Setelah itu buat subdomain **super.franky.b07.com** dengan alias www.super.franky.b07.com yang diatur DNS nya di EniesLobby dan mengarah ke Skypie
 
 ### Pembahasan
+1. Pada **Enieslobby** dilakukan edit file `/etc/bind/kaizoku/franky.b07.com` seperti berikut:
+```
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     franky.b07.com. root.franky.b07.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      franky.b07.com.
+@       IN      A       192.180.2.2 ;IP Enieslobby
+www     IN      CNAME   franky.b07.com.
+super   IN      A       192.180.2.4 ;IP Skyepie
+www.super     IN      CNAME   super.franky.b07.com.
+```
+2. Melakukan restart bind9 dengan `service bind9 restart`
+3. Melakukan tes di Loguetown `ping super.franky.b07.com` dan `ping www.super.franky.b07.com`, jika IP nya `192.180.2.4` artinya DNS telah terkoneksi
 
 ## Soal 4
 
