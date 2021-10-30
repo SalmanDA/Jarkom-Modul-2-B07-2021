@@ -92,7 +92,7 @@ EniesLobby akan dijadikan sebagai DNS Master, Water7 akan dijadikan DNS Slave, d
 Luffy ingin menghubungi Franky yang berada di EniesLobby dengan denden mushi. Kalian diminta Luffy untuk membuat website utama dengan mengakses **franky.b07.com** dengan alias **www.franky.b07.com** pada folder kaizoku
 
 ### Pembahasan
-1. Pertama dilakukan install bind9 dengan menggunakan command `apt-get update` dan `apt-get install bind9 -y`
+1. Pada Enieslobby, pertama dilakukan install bind9 dengan menggunakan command `apt-get update` dan `apt-get install bind9 -y`
 2. Kemudian mengedit isi dari file `/etc/bind/named.conf.local` seperti berikut:
 ```
    zone "franky.b07.com" {
