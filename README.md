@@ -159,6 +159,38 @@ www.super     IN      CNAME   super.franky.b07.com.
 Buat juga reverse domain untuk domain utama
 
 ### Pembahasan
+1. Pada **Enieslobby** pertama-tama edit file `/etc/bind/named.conf.local` seperti berikut:
+```
+zone "franky.b07.com" {
+        type master;
+        file "/etc/bind/kaizoku/franky.b07.com";
+};
+
+zone "2.180.192.in-addr.arpa" {
+    type master;
+    file "/etc/bind/kaizoku/2.180.192.in-addr.arpa";
+};
+```
+2. Mengcopy file dengan `cp /etc/bind/db.local /etc/bind/kaizoku/2.180.192.in-addr.arpa`
+3. Mengedit file `/etc/bind/kaizoku/2.180.192.in-addr.arpa` seperti berikut:
+```
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     franky.b07.com. root.franky.b07.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+2.180.192.in-addr.arpa. IN      NS      franky.b07.com.
+2                       IN      PTR     franky.b07.com.       ; BYTE KE-4 IP En$
+```
+4. Melakukan restart bind9 dengan `service bind9 restart`
+5. Pada **Loguetown** lakukan `apt-get update` dan `apt-get install dnsutils`
+6. Kemudian lakukan `host -t PTR 192.180.2.2` untuk mengecek apakah reverse domain mengarah ke domain utama
 
 ## Soal 5
 
